@@ -1,7 +1,8 @@
 ﻿using Profile;
 using UnityEngine;
+using UnityEngine.Advertisements;
 
-public class MainMenuController : BaseController
+public sealed class MainMenuController : BaseController
 {
     private readonly ResourcePath _viewPath = new ResourcePath {PathResource = "Prefabs/MainMenu"};
     private readonly ProfilePlayer _profilePlayer;
@@ -25,6 +26,9 @@ public class MainMenuController : BaseController
     private void StartGame()
     {
         _profilePlayer.CurrentState.Value = GameState.Game;
+        _profilePlayer.AnalyticTools.SendMessage("Game_Started", ("Time", Time.realtimeSinceStartup));
+        _profilePlayer.AdsShower.ShowInterstitial();
+        Advertisement.AddListener(_profilePlayer.UnityAdsListener);
     }
 }
 
