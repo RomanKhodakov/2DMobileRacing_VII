@@ -5,10 +5,10 @@ public class InputGameController : BaseController
 {
     private readonly ResourcePath _inputPath = new ResourcePath {PathResource = "Prefabs/MobileSingleStickControl"};
     private BaseInputView _inputView;
-    public InputGameController(SubscriptionProperty<float> leftMove, SubscriptionProperty<float> rightMove, Car car)
+    public InputGameController(SubscriptionProperty<float> leftMove, SubscriptionProperty<float> rightMove, CarModel carModel)
     {
         _inputView = LoadView();
-        _inputView.Initialization(leftMove, rightMove, car.Speed);
+        _inputView.Initialization(leftMove, rightMove, carModel);
     }
 
     private BaseInputView LoadView()

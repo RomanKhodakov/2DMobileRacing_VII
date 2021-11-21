@@ -1,5 +1,4 @@
-﻿using Profile;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Advertisements;
 
 public sealed class MainMenuController : BaseController

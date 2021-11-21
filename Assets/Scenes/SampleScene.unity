@@ -320,6 +320,7 @@ MonoBehaviour:
   _placeForUi: {fileID: 111791203}
   _speedCar: 10
   _unityAdsTools: {fileID: 58678952}
+  _upgradeItemConfigDataSource: {fileID: 11400000, guid: 80f1b11259ca6fc43a244661b29c6d60, type: 2}
 --- !u!114 &611680087
 MonoBehaviour:
   m_ObjectHideFlags: 0

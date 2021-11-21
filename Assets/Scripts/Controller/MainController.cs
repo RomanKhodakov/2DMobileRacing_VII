@@ -1,17 +1,20 @@
-﻿using Profile;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MainController : BaseController
 {
     private MainMenuController _mainMenuController;
     private GameController _gameController;
+    private InventoryController _inventoryController;
     private readonly Transform _placeForUi;
     private readonly ProfilePlayer _profilePlayer;
-    
-    public MainController(Transform placeForUi, ProfilePlayer profilePlayer)
+    private readonly UpgradeItemConfigDataSource _upgradeItemConfigDataSource;
+
+    public MainController(Transform placeForUi, ProfilePlayer profilePlayer, 
+        UpgradeItemConfigDataSource upgradeItemConfigDataSource)
     {
         _profilePlayer = profilePlayer;
         _placeForUi = placeForUi;
+        _upgradeItemConfigDataSource = upgradeItemConfigDataSource;
         OnChangeGameState(_profilePlayer.CurrentState.Value);
         profilePlayer.CurrentState.SubscribeOnChange(OnChangeGameState);
     }
@@ -24,7 +27,8 @@ public class MainController : BaseController
                 _gameController?.Dispose();
                 break;
             case GameState.Game:
-                _gameController = new GameController(_profilePlayer);
+                _gameController = new GameController(_profilePlayer, _placeForUi, _upgradeItemConfigDataSource);
+                
                 _mainMenuController?.Dispose();
                 break;
             default:
@@ -36,6 +40,7 @@ public class MainController : BaseController
 
     protected override void OnDispose()
     {
+        _inventoryController?.Dispose();
         _mainMenuController?.Dispose();
         _gameController?.Dispose();
         _profilePlayer.CurrentState.UnSubscriptionOnChange(OnChangeGameState);

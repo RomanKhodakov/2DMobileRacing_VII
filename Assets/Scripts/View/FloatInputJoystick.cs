@@ -7,15 +7,15 @@ public sealed class FloatInputJoystick : BaseInputView
 {
     private float _moveStep;
     public override void Initialization(SubscriptionProperty<float> leftMove, SubscriptionProperty<float> rightMove,
-        float speed)
+        CarModel carModel)
     {
-        base.Initialization(leftMove, rightMove, speed);
+        base.Initialization(leftMove, rightMove, carModel);
         UpdateManager.SubscribeToUpdate(Move);
     }
 
     private void Move()
     {
-        _moveStep = Speed * Time.deltaTime * CrossPlatformInputManager.GetAxis("Horizontal");
+        _moveStep = CarModel.Speed * Time.deltaTime * CrossPlatformInputManager.GetAxis("Horizontal");
         if (_moveStep > 0)
             OnRightMove(_moveStep);
         else if (_moveStep < 0)
