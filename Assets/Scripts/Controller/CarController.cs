@@ -18,9 +18,6 @@ public class CarController : BaseController
         return objView.GetComponent<CarView>();
     }
 
-    public GameObject GetViewObject()
-    {
-        return _carView.gameObject;
-    }
+    public CarView GetCarView() => _carView;
 }
 
