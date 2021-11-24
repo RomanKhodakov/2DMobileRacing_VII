@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class GameController : BaseController
 {
-    public GameController(ProfilePlayer profilePlayer, Transform placeForUi, UpgradeItemConfigDataSource upgradeItemConfigDataSource)
+    public GameController(ProfilePlayer profilePlayer, Transform placeForUi, 
+        UpgradeItemConfigDataSource upgradeItemConfigDataSource, AbilitiesDataSource abilitiesDataSource)
     {
         var leftMoveProperty = new SubscriptionProperty<float>();
         var rightMoveProperty = new SubscriptionProperty<float>();
@@ -18,7 +19,7 @@ public class GameController : BaseController
         var carController = new CarController();
         AddController(carController);
         
-        var inventoryController = new InventoryController(upgradeItemConfigDataSource, placeForUi,
+        var inventoryController = new InventoryController(upgradeItemConfigDataSource, abilitiesDataSource.AbilitiesItemsConfigs, placeForUi,
             profilePlayer.CurrentCarModel, carController.GetCarView());
         AddController(inventoryController);
     }

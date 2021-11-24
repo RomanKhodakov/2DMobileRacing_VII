@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "AbilityItemConfig", menuName = "AbilityItemConfig")]
+[CreateAssetMenu(fileName = "AbilitiesItemsConfigs", menuName = "AbilitiesItemsConfigs")]
 public class AbilityItemConfig : ScriptableObject
 {
     [SerializeField] private ItemConfig _itemConfig;
 
-    [SerializeField] private GameObject _view;
+    [SerializeField] private AbilityView _abilityView;
 
     [SerializeField] private AbilityType _abilityType;
 
@@ -17,7 +17,7 @@ public class AbilityItemConfig : ScriptableObject
 
     public AbilityType AbilityType => _abilityType;
 
-    public GameObject View => _view;
+    public AbilityView AbilityView => _abilityView;
 
     public ItemConfig ItemConfig => _itemConfig;
 }

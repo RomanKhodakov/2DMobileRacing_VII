@@ -9,18 +9,18 @@ public class InventoryController : BaseController, IInventoryController
     private readonly ResourcePath _viewPath = new ResourcePath {PathResource = "Prefabs/InventoryUI"};
     private readonly InventoryService _inventoryService;
     private readonly InventoryView _inventoryView;
-    private readonly ItemsRepository _itemsRepository;
     private readonly List<UnityAction> _onClickActions;
 
     public Action HideAction { get; }
 
-    public InventoryController(UpgradeItemConfigDataSource upgradeItemConfigDataSource, Transform menuUiTransform, 
-        CarModel carModel, CarView carView)
+    public InventoryController(UpgradeItemConfigDataSource upgradeItemConfigDataSource, IEnumerable<AbilityItemConfig> abilitiesItemConfigs,
+        Transform menuUiTransform, CarModel carModel, CarView carView)
     {
-        _itemsRepository = new ItemsRepository(upgradeItemConfigDataSource);
-        _inventoryService = new InventoryService(_itemsRepository.Items, carModel, carView);
+        var itemsRepository = new ItemsRepository(upgradeItemConfigDataSource);
+        var abilityRepository = new AbilityRepository(abilitiesItemConfigs);
+        _inventoryService = new InventoryService(itemsRepository.Items, abilityRepository.Collection, carModel, carView);
 
-        _onClickActions = _inventoryService.GetOnClickButtonsItemsActions();
+        _onClickActions = _inventoryService.GetOnClickButtonsActions();
         
         _inventoryView = LoadView(menuUiTransform);
 

@@ -7,12 +7,12 @@ public class AbilityRepository : BaseController, IRepository<int, IAbility>
     
     public IReadOnlyDictionary<int, IAbility> Collection => _abilitiesMapById;
 
-    public AbilityRepository(List<AbilityItemConfig> abilityItemConfigs)
+    public AbilityRepository(IEnumerable<AbilityItemConfig> abilityItemConfigs)
     {
-        PopulateItems(abilityItemConfigs);
+        PopulateAbilities(abilityItemConfigs);
     }
 
-    private void PopulateItems(List<AbilityItemConfig> configs)
+    private void PopulateAbilities(IEnumerable<AbilityItemConfig> configs)
     {
         foreach (var config in configs)
         {
