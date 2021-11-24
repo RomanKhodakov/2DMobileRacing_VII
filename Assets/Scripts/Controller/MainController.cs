@@ -8,13 +8,15 @@ public class MainController : BaseController
     private readonly Transform _placeForUi;
     private readonly ProfilePlayer _profilePlayer;
     private readonly UpgradeItemConfigDataSource _upgradeItemConfigDataSource;
+    private readonly AbilitiesDataSource _abilitiesDataSource;
 
     public MainController(Transform placeForUi, ProfilePlayer profilePlayer, 
-        UpgradeItemConfigDataSource upgradeItemConfigDataSource)
+        UpgradeItemConfigDataSource upgradeItemConfigDataSource, AbilitiesDataSource abilitiesDataSource)
     {
         _profilePlayer = profilePlayer;
         _placeForUi = placeForUi;
         _upgradeItemConfigDataSource = upgradeItemConfigDataSource;
+        _abilitiesDataSource = abilitiesDataSource;
         OnChangeGameState(_profilePlayer.CurrentState.Value);
         profilePlayer.CurrentState.SubscribeOnChange(OnChangeGameState);
     }
@@ -27,7 +29,7 @@ public class MainController : BaseController
                 _gameController?.Dispose();
                 break;
             case GameState.Game:
-                _gameController = new GameController(_profilePlayer, _placeForUi, _upgradeItemConfigDataSource);
+                _gameController = new GameController(_profilePlayer, _placeForUi, _upgradeItemConfigDataSource, _abilitiesDataSource);
                 
                 _mainMenuController?.Dispose();
                 break;

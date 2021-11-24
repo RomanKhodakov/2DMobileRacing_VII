@@ -4,22 +4,25 @@ using UnityEngine.Events;
 public sealed class InventoryService : IInventoryService
 {
     private readonly List<IItem> _equippedItems = new List<IItem>();
-    
+
     private readonly List<UnityAction> _onClickActions = new List<UnityAction>();
 
     private readonly IReadOnlyDictionary<int, IItem> _items;
+    private readonly IReadOnlyDictionary<int, IAbility> _abilities;
     private readonly CarModel _carModel;
     private readonly CarView _carView;
 
-    public InventoryService(IReadOnlyDictionary<int, IItem> items, CarModel carModel, CarView carView)
+    public InventoryService(IReadOnlyDictionary<int, IItem> items, IReadOnlyDictionary<int, IAbility> abilities,
+        CarModel carModel, CarView carView)
     {
         _items = items;
+        _abilities = abilities;
         _carModel = carModel;
         _carView = carView;
     }
 
-    public List<UnityAction> GetOnClickButtonsItemsActions()
-    { // тут через замыкание идёт захват текущего айтема для добавления в список с событиями
+    public List<UnityAction> GetOnClickButtonsActions()
+    {
         foreach (var item in _items.Values)
         {
             switch (item.Info.UpgradeType)
@@ -43,6 +46,24 @@ public sealed class InventoryService : IInventoryService
                     break;
             }
         }
+
+        foreach (var ability in _abilities.Values)
+        {
+            switch (ability.Config.AbilityType)
+            {
+                case AbilityType.Bomb:
+                    _onClickActions.Add(() =>
+                    {
+                        ability.Apply();
+                    });
+                    break;
+                case AbilityType.Gun:
+                    break;
+                default:
+                    break;
+            }
+        }
+
         return _onClickActions;
     }
 
