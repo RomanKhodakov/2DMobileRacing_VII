@@ -19,6 +19,10 @@ public class GameController : BaseController
         var carController = new CarController();
         AddController(carController);
         
+        var uiFightController = new UIFightController(placeForUi);
+        AddController(uiFightController);
+
+        
         var inventoryController = new InventoryController(upgradeItemConfigDataSource, abilitiesDataSource.AbilitiesItemsConfigs, placeForUi,
             profilePlayer.CurrentCarModel, carController.GetCarView());
         AddController(inventoryController);

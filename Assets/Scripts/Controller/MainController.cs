@@ -4,7 +4,6 @@ public class MainController : BaseController
 {
     private MainMenuController _mainMenuController;
     private GameController _gameController;
-    private InventoryController _inventoryController;
     private readonly Transform _placeForUi;
     private readonly ProfilePlayer _profilePlayer;
     private readonly UpgradeItemConfigDataSource _upgradeItemConfigDataSource;
@@ -30,7 +29,6 @@ public class MainController : BaseController
                 break;
             case GameState.Game:
                 _gameController = new GameController(_profilePlayer, _placeForUi, _upgradeItemConfigDataSource, _abilitiesDataSource);
-                
                 _mainMenuController?.Dispose();
                 break;
             default:
@@ -42,7 +40,6 @@ public class MainController : BaseController
 
     protected override void OnDispose()
     {
-        _inventoryController?.Dispose();
         _mainMenuController?.Dispose();
         _gameController?.Dispose();
         _profilePlayer.CurrentState.UnSubscriptionOnChange(OnChangeGameState);
