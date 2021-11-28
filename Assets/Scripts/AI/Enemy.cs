@@ -1,4 +1,5 @@
-﻿using Random = UnityEngine.Random;
+﻿using UnityEngine;
+using Random = UnityEngine.Random;
 
 public sealed class Enemy : IEnemy
 {
@@ -23,6 +24,7 @@ public sealed class Enemy : IEnemy
             case DataType.Money:
                 var dataMoney = (Money)dataPlayer;
                  _moneyPlayer = dataMoney.CountMoney;
+                Debug.Log($"money: {_moneyPlayer}");
                 break;
 
             case DataType.Health:

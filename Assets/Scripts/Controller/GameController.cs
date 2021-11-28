@@ -19,7 +19,7 @@ public class GameController : BaseController
         var carController = new CarController();
         AddController(carController);
         
-        var uiFightController = new UIFightController(placeForUi);
+        var uiFightController = new UIFightController(placeForUi, profilePlayer);
         AddController(uiFightController);
 
         

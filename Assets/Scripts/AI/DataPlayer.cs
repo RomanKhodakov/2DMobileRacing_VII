@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class DataPlayer
 {
@@ -7,6 +8,7 @@ public class DataPlayer
     public void Attach(IEnemy enemy)
     {
         _enemies.Add(enemy);
+        Debug.Log($"Attached");
     }
 
     public void Detach(IEnemy enemy)
