@@ -13,7 +13,7 @@ public class GameStarter : MonoBehaviour
     private void Awake()
     {
         var profilePlayer = new ProfilePlayer(_speedCar, _unityAdsTools);
-        profilePlayer.CurrentState.Value = GameState.Start;
+        profilePlayer.CurrentState.Value = GameState.DailyReward;
         _mainController = new MainController(_placeForUi, profilePlayer, _upgradeItemConfigDataSource, _abilitiesDataSource);
     }
 

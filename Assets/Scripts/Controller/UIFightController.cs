@@ -5,6 +5,7 @@ using UnityEngine.Events;
 public sealed class UIFightController : BaseController
 {
     private readonly ResourcePath _viewPath = new ResourcePath {PathResource = "Prefabs/FightUI"};
+    private readonly ProfilePlayer _profilePlayer;
     private readonly UIFightWindowView _uiFightWindowView;
 
     private readonly Money _money;
@@ -19,14 +20,16 @@ public sealed class UIFightController : BaseController
 
     private readonly List<UnityAction> _onClickChanges;
 
-    public UIFightController(Transform menuUiTransform)
+    public UIFightController(Transform menuUiTransform, ProfilePlayer profilePlayer)
     {
+        _profilePlayer = profilePlayer;
+        
         _enemy = new Enemy("Enemy");
 
-        _money = new Money();
+        _money = new Money(profilePlayer.Money);
         _money.Attach(_enemy);
 
-        _health = new Health();
+        _health = new Health(profilePlayer.Health);
         _health.Attach(_enemy);
 
         _power = new Power();
@@ -36,6 +39,8 @@ public sealed class UIFightController : BaseController
         
         _uiFightWindowView = LoadView(menuUiTransform);
         _uiFightWindowView.SubscribeActions(GetOnClickActions());
+        
+        SetBaseMoneyAndHealth();
     }
     
     private UIFightWindowView LoadView(Transform placeForUi)
@@ -61,6 +66,15 @@ public sealed class UIFightController : BaseController
         _onClickChanges.Add(Skip);
         
         return _onClickChanges;
+    }
+
+    private void SetBaseMoneyAndHealth()
+    {
+        _allCountMoneyPlayer = _profilePlayer.Money;
+        _allCountHealthPlayer = _profilePlayer.Health;
+        
+        ChangeDataWindow(_allCountMoneyPlayer, DataType.Money);
+        ChangeDataWindow(_allCountHealthPlayer, DataType.Health);
     }
 
 
@@ -155,7 +169,7 @@ public sealed class UIFightController : BaseController
         _money.Detach(_enemy);
         _health.Detach(_enemy);
         _power.Detach(_enemy);
-
+        
         base.OnDispose();
     }
 }

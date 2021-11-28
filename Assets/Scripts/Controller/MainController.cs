@@ -2,6 +2,7 @@
 
 public class MainController : BaseController
 {
+    private DailyRewardController _dailyRewardController;
     private MainMenuController _mainMenuController;
     private GameController _gameController;
     private readonly Transform _placeForUi;
@@ -23,17 +24,25 @@ public class MainController : BaseController
     {
         switch (state)
         {
+            case GameState.DailyReward:
+                _dailyRewardController = new DailyRewardController(_placeForUi, _profilePlayer);
+                _mainMenuController?.Dispose();
+                _gameController?.Dispose();
+                break;
             case GameState.Start:
                 _mainMenuController = new MainMenuController(_placeForUi, _profilePlayer);
                 _gameController?.Dispose();
+                _dailyRewardController?.Dispose();
                 break;
             case GameState.Game:
                 _gameController = new GameController(_profilePlayer, _placeForUi, _upgradeItemConfigDataSource, _abilitiesDataSource);
                 _mainMenuController?.Dispose();
+                _dailyRewardController?.Dispose();
                 break;
             default:
                 _mainMenuController?.Dispose();
                 _gameController?.Dispose();
+                _dailyRewardController?.Dispose();
                 break;
         }
     }
