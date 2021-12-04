@@ -6,7 +6,7 @@ public sealed class Money : DataPlayer
 
     public Money(int baseMoney)
     {
-        CountMoney = baseMoney;
+        _countMoney = baseMoney;
     }
 
     public int CountMoney
@@ -18,7 +18,6 @@ public sealed class Money : DataPlayer
             {
                 _countMoney = value;
                 Notifier(DataType.Money);   
-                Debug.Log($"Notified Money");
             }
         }
     }

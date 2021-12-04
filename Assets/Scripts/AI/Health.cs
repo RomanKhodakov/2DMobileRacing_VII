@@ -6,7 +6,7 @@ public sealed class Health : DataPlayer
 
     public Health(int baseHealth)
     {
-        CountHealth = baseHealth;
+        _countHealth = baseHealth;
     }
     public int CountHealth
     {
@@ -17,7 +17,6 @@ public sealed class Health : DataPlayer
             {
                 _countHealth = value;
                 Notifier(DataType.Health);
-                Debug.Log($"Notified Health");
             }
         }
     }
