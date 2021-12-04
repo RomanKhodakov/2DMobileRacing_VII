@@ -41,6 +41,6 @@ public sealed class Enemy : IEnemy
 
     public void GetNewEnemy()
     {
-        _newBaseEnemyPower = Random.Range(-1, 3);
+        _newBaseEnemyPower += Random.Range(-1, 3);
     }
 }

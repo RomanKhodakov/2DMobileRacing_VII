@@ -1,9 +1,12 @@
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
 
 public sealed class UIFightController : BaseController
 {
+    private const int EnemyPowerThreshold = 3;
+    private const float SkipButtonMoveTime = 0.5f;
     private readonly ResourcePath _viewPath = new ResourcePath {PathResource = "Prefabs/FightUI"};
     private readonly ProfilePlayer _profilePlayer;
     private readonly UIFightWindowView _uiFightWindowView;
@@ -19,6 +22,8 @@ public sealed class UIFightController : BaseController
     private int _allCountPowerPlayer;
 
     private readonly List<UnityAction> _onClickChanges;
+
+    private Vector2 _basePosition;
 
     public UIFightController(Transform menuUiTransform, ProfilePlayer profilePlayer)
     {
@@ -40,7 +45,7 @@ public sealed class UIFightController : BaseController
         _uiFightWindowView = LoadView(menuUiTransform);
         _uiFightWindowView.SubscribeActions(GetOnClickActions());
         
-        SetBaseMoneyAndHealth();
+        SetBasePlayerStats();
     }
     
     private UIFightWindowView LoadView(Transform placeForUi)
@@ -68,13 +73,16 @@ public sealed class UIFightController : BaseController
         return _onClickChanges;
     }
 
-    private void SetBaseMoneyAndHealth()
+    private void SetBasePlayerStats()
     {
+        _power.CountPower = _profilePlayer.Money + _profilePlayer.Health;
         _allCountMoneyPlayer = _profilePlayer.Money;
         _allCountHealthPlayer = _profilePlayer.Health;
+        _allCountPowerPlayer = _power.CountPower;
         
         ChangeDataWindow(_allCountMoneyPlayer, DataType.Money);
         ChangeDataWindow(_allCountHealthPlayer, DataType.Health);
+        ChangeDataWindow(_allCountPowerPlayer, DataType.Power);
     }
 
 
@@ -152,9 +160,16 @@ public sealed class UIFightController : BaseController
 
     private void Skip()
     {
-        if (_enemy.Power > 2)
+        if (_enemy.Power >= EnemyPowerThreshold)
         {
-            _uiFightWindowView.SkipButton.gameObject.SetActive(false);
+            _basePosition = _uiFightWindowView.SkipButton.transform.position;
+            _uiFightWindowView.SkipButton.transform.DOMove(_basePosition * Vector2.right, SkipButtonMoveTime)
+                .SetEase(Ease.InOutSine).onComplete += () =>
+                {
+                    _uiFightWindowView.SkipButton.gameObject.SetActive(false);
+                    _uiFightWindowView.SkipButton.transform.position = _basePosition;
+                };
+            
             Debug.Log($"Can't skip powerful enemy");
         }
         else

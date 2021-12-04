@@ -8,7 +8,6 @@ public class DataPlayer
     public void Attach(IEnemy enemy)
     {
         _enemies.Add(enemy);
-        Debug.Log($"Attached");
     }
 
     public void Detach(IEnemy enemy)
