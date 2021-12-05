@@ -5,10 +5,8 @@ using UnityEngine.UI;
 
 public class CustomStartButton : Button
 {
-    private readonly int _width = Screen.width;
-    private readonly int _height = Screen.height;
     private const float MoveDuration = 0.5f;
-    private const float MoveRate = 1.5f;
+    private Vector3 _buttonRotation;
 
     private RectTransform _rectTransform;
 
@@ -17,18 +15,19 @@ public class CustomStartButton : Button
         base.Awake();
 
         _rectTransform = GetComponent<RectTransform>();
+        _buttonRotation.Set(0, 0, 360);
     }
 
     public override void OnPointerEnter(PointerEventData eventData)
     {
         base.OnPointerEnter(eventData);
-        if (_rectTransform.position.x < _width / 2 && _rectTransform.position.y < _height / 2)
-        {
-            _rectTransform.DOMove(_rectTransform.position * MoveRate, MoveDuration).SetEase(Ease.InOutCirc);
-        }
-        else
-        {
-            _rectTransform.DOMove(_rectTransform.position * (1 / MoveRate), MoveDuration).SetEase(Ease.InOutCirc);
-        }
+        _rectTransform.DORotate(_buttonRotation, MoveDuration, RotateMode.FastBeyond360).SetLoops(-1).SetEase(Ease.Linear);
+    }
+
+    public override void OnPointerExit(PointerEventData eventData)
+    {
+        base.OnPointerExit(eventData);
+        _rectTransform.DOKill();
+        _rectTransform.DORotate(Vector3.zero, MoveDuration);
     }
 }
