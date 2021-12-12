@@ -1,0 +1,7 @@
+ManifestFileVersion: 0
+CRC: 4251098378
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: starthoversprite
+      Dependencies: {}
